@@ -1,0 +1,92 @@
+[package]
+name = "brainiac"
+version = "0.2.0"
+edition = "2021"
+description = "BrainIAC — Brain MRI foundation model inference in Rust with Burn ML"
+keywords = ["brain", "mri", "foundation-model", "vit", "neuroimaging"]
+categories = ["science", "mathematics"]
+authors = ["BrainIAC-RS Contributors"]
+license = "Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/eugenehp/brainiac"
+homepage = "https://github.com/eugenehp/brainiac"
+
+exclude = [
+    "data/",
+    "figures/",
+    "scripts/",
+    "tests/vectors/",
+    "hf_repo/",
+]
+
+[lib]
+name = "brainiac"
+path = "src/lib.rs"
+
+[[bin]]
+name = "infer"
+path = "src/bin/infer.rs"
+
+[[bin]]
+name = "train"
+path = "src/bin/train.rs"
+
+[[bin]]
+name = "download_weights"
+path = "src/bin/download_weights.rs"
+required-features = ["hf-download"]
+
+[[example]]
+name = "extract_features"
+path = "examples/extract_features.rs"
+
+[[example]]
+name = "benchmark"
+path = "examples/benchmark.rs"
+
+[[example]]
+name = "train_brainage"
+path = "examples/train_brainage.rs"
+
+[[example]]
+name = "bench_all"
+path = "examples/bench_all.rs"
+
+[features]
+default = ["ndarray"]
+
+# ── CPU backends ─────────────────────────────────────────────────────────────
+ndarray         = ["dep:burn-ndarray", "burn/ndarray"]
+blas-accelerate = ["burn-ndarray?/blas-accelerate"]
+openblas-system = ["burn-ndarray?/blas-openblas-system"]
+
+# ── GPU backends ─────────────────────────────────────────────────────────────
+wgpu            = ["burn/wgpu"]
+metal           = ["wgpu", "burn-wgpu/metal"]
+vulkan          = ["wgpu", "burn-wgpu/vulkan"]
+
+# ── Utilities ────────────────────────────────────────────────────────────────
+hf-download     = ["dep:hf-hub"]
+
+[dependencies]
+burn = { version = "0.20.1", default-features = false, features = ["std", "autodiff"] }
+burn-ndarray = { version = "0.20.1", default-features = false, features = ["std", "multi-threads"], optional = true }
+burn-wgpu = { version = "0.20.1", default-features = true, optional = true }
+
+safetensors = "0.7"
+half = { version = "2", features = ["bytemuck"] }
+flate2 = "1"
+clap = { version = "4", features = ["derive"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+anyhow = "1"
+bytemuck = { version = "1", features = ["derive"] }
+hf-hub = { version = "0.5", default-features = false, features = ["ureq"], optional = true }
+
+[dev-dependencies]
+tempfile = "3"
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1

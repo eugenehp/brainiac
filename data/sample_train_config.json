@@ -1,0 +1,28 @@
+{
+    "task": "regression",
+    "num_classes": 1,
+    "max_epochs": 200,
+    "batch_size": 16,
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "freeze_backbone": false,
+    "backbone_weights": "./checkpoints/brainiac_backbone.safetensors",
+    "train_csv": "./data/csvs/brainage_train.csv",
+    "val_csv": "./data/csvs/brainage_val.csv",
+    "root_dir": "./data/images",
+    "save_dir": "./checkpoints/brainage",
+    "log_interval": 10,
+    "cosine_t0": 50,
+    "num_workers": 4,
+    "model": {
+        "img_size": 96,
+        "patch_size": 16,
+        "in_channels": 1,
+        "hidden_size": 768,
+        "mlp_dim": 3072,
+        "num_layers": 12,
+        "num_heads": 12,
+        "norm_eps": 1e-6,
+        "dropout": 0.2
+    }
+}
