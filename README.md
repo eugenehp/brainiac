@@ -1,5 +1,9 @@
 # brainiac
 
+[![crates.io](https://img.shields.io/crates/v/brainiac.svg)](https://crates.io/crates/brainiac)
+[![docs.rs](https://docs.rs/brainiac/badge.svg)](https://docs.rs/brainiac)
+[![GitHub release](https://img.shields.io/github/v/release/eugenehp/brainiac)](https://github.com/eugenehp/brainiac/releases)
+
 Pure-Rust inference and training for the [BrainIAC](https://www.nature.com/articles/s41593-026-02202-6) (Brain Imaging Adaptive Core) foundation model, built on [Burn 0.20](https://burn.dev).
 
 BrainIAC is a Vision Transformer (ViT-B/16) pretrained with SimCLR on structural brain MRI. This crate provides numerically-verified inference, fine-tuning, and all downstream tasks — no Python or PyTorch required.
